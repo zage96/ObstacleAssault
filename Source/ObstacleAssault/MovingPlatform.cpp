@@ -36,7 +36,7 @@ void AMovingPlatform::Tick(float DeltaTime)
 void AMovingPlatform::MovePlatform(float DeltaTime)
 {
 	
-	if(ShouldPlatformReturn){
+	if(ShouldPlatformReturn()){
 		FVector MoveDirection = PlatformVelocity.GetSafeNormal();
 		StartLocation = StartLocation + MoveDirection*MoveDistance;
 		SetActorLocation(StartLocation);
@@ -54,15 +54,20 @@ void AMovingPlatform::MovePlatform(float DeltaTime)
 
 void AMovingPlatform::RotatePlatform(float DeltaTime)
 {
-	UE_LOG(LogTemp, Display, TEXT("%s Rotating..."), *GetName());
+	// AddActorLocalRotation is preferable instead of the other 3 lines, since it considers the changes in rotation degrees from -90 to 90
+	//FRotator CurrentRotation = GetActorRotation();
+	//CurrentRotation = CurrentRotation + RotationVelocity * Deltatime;
+	//SetActorRotation(CurrentRotation);
+	AddActorLocalRotation(RotationVelocity * DeltaTime);
+
 }
 
-bool AMovingPlatform::ShouldPlatformReturn()
+bool AMovingPlatform::ShouldPlatformReturn() const
 {
 	return (GetDistanceMoved() > MoveDistance);
 }
 
-float AMovingPlatform::GetDistanceMoved()
+float AMovingPlatform::GetDistanceMoved() const
 {
 	return FVector::Dist(StartLocation,GetActorLocation());
 }

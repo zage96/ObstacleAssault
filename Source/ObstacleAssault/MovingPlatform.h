@@ -32,16 +32,20 @@ private:
 	// float MyX = 0;
 
 	// Variables
-	UPROPERTY(EditAnywhere, Category="Moving Platform")
+	UPROPERTY(EditAnywhere, Category="Moving")
 	FVector PlatformVelocity = FVector(100,0,0);
 
-	UPROPERTY(EditAnywhere, Category="Moving Platform")
+	UPROPERTY(EditAnywhere, Category="Moving")
 	float MoveDistance = 100;
+
+	UPROPERTY(EditAnywhere, Category="Rotation")
+	FRotator RotationVelocity;
 
 	FVector StartLocation;
 
+	// Functions
 	void MovePlatform(float DeltaTime);
 	void RotatePlatform(float DeltaTime);
-	bool ShouldPlatformReturn();
-	float GetDistanceMoved();
+	bool ShouldPlatformReturn() const;
+	float GetDistanceMoved() const;
 };
